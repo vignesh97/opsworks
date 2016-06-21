@@ -13,3 +13,19 @@ directory data_dir do
   recursive true
   action :create
 end
+
+ruby_block "download-object" do
+  block do
+    require 'aws-sdk'
+
+    s3 = AWS::S3.new
+
+    myfile = s3.buckets['dev.rivet.media.bucket'].objects['test.txt']
+    Dir.chdir("/tmp")
+    File.open("test.txt", "w") do |f|
+      f.syswrite(myfile.read)
+      f.close
+    end
+  end
+  action :run
+end
