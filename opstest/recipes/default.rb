@@ -14,6 +14,10 @@ directory data_dir do
   action :create
 end
 
+gem_package "aws-sdk" do
+  action :install
+end
+
 ruby_block "download-object" do
   block do
     require 'aws-sdk'
